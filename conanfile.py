@@ -2,11 +2,12 @@ from conans import ConanFile, CMake, tools
 
 
 class ClickhouseclientConan(ConanFile):
-    name = "clickhouse_client"
+    name = "clickhouse-cpp"
     version = "0.1"
     license = "http://www.apache.org/licenses/LICENSE-2.0"
     author = "Andrey l.a.r.p@yandex.ru"
     url = "https://github.com/artpaul/clickhouse-cpp.git"
+    description = "Clickhouse C++ client"
     settings = "os", "compiler", "build_type", "arch"
     options = {"shared": [True, False]}
     default_options = "shared=False"

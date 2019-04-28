@@ -12,5 +12,7 @@ int main(int argc, char **argv)
     id->Append(1);
     id->Append(7);
 
-	std::cout << "Clickhouse run" << std::endl;
+    block.AppendColumn("ColumnId", id);
+
+    std::cout << "Clickhouse run " << block.GetColumnCount() << std::endl;
 }
