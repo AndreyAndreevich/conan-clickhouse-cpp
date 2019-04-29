@@ -1,0 +1,8 @@
+[settings]
+compiler=clang
+compiler.version=7.0
+compiler.libcxx=libstdc++
+
+[env]
+CC=/usr/bin/clang
+CXX=/usr/bin/clang++

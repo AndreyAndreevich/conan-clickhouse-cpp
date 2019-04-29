@@ -8,7 +8,7 @@ before_script:
   - pip install conan_package_tools
 script:
   - conan export . demo/testing
-  - conan install clickhouse-cpp/0.1@demo/testing --build -s compiler='clang' -s compiler.libcxx=libstdc++ -s compiler.version=7.0
+  - conan install clickhouse-cpp/0.1@demo/testing --build -pr clang
   - conan test test_package clickhouse-cpp/0.1@demo/testing
 #deploy:
 #  - provider: script
