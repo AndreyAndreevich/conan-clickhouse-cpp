@@ -1,6 +1,7 @@
 language: python
 python: "3.6"
 dist: xenial
+compiler: clang
 before_script:
   - pip install conan --upgrade
   - pip install conan_package_tools
