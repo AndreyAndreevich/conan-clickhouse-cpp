@@ -27,6 +27,6 @@ deploy:
     on:
       branch: CI
     script:
-      conan remote add my "https://api.bintray.com/conan/12345678/clickhouse-cpp" --insert
+      conan remote add my "https://api.bintray.com/conan/12345678/clickhouse-cpp" --insert 0
       conan user -p $BINTRAY_API_KEY -r my andreyandreevich
       conan upload clickhouse-cpp/0.1@demo/testing --all -r=my
