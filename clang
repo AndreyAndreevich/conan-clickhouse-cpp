@@ -10,3 +10,5 @@ compiler.libcxx=libstdc++
 [env]
 CC=/usr/bin/clang
 CXX=/usr/bin/clang++
+  /usr/local/clang-7.0.0/lib/clang
+  /usr/local/clang-7.0.0/bin/clang

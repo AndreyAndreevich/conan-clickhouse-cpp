@@ -4,7 +4,9 @@ dist: xenial
 compiler:
   - clang
 before_script:
-  - find / -name clang
+  - ls /user/bin
+  - ls /usr/local
+  - ls /usr/local/clang-7.0.0/bin
   - pip install conan --upgrade
   - pip install conan_package_tools
 script:
