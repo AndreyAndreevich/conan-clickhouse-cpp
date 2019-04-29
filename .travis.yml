@@ -1,0 +1,31 @@
+language: python
+python: "3.6"
+dist: xenial
+matrix:
+  include:
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-8
+      env:
+        - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
+before_install:
+  - eval "${MATRIX_EVAL}"
+before_script:
+  - pip install conan --upgrade
+  - pip install conan_package_tools
+script:
+  - conan export . demo/testing
+  - conan export . conan/testing
+  - conan install clickhouse-cpp/0.1@demo/testing --build -pr clang
+  - conan test test_package clickhouse-cpp/0.1@demo/testing -pr clang
+deploy:
+  - provider: script
+    skip_cleanup: true
+    script:
+      conan remote add my "https://api.bintray.com/conan/12345678/clickhouse-cpp" --insert &&
+      conan user -p $BINTRAY_API_KEY -r my andreyandreevich &&
+      conan upload clickhouse-cpp/0.1@conan/testing --all -r=my

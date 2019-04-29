@@ -1,0 +1,12 @@
+[settings]
+os=Linux
+os_build=Linux
+arch=x86_64
+arch_build=x86_64
+compiler=clang
+compiler.version=7.0
+compiler.libcxx=libstdc++
+
+[env]
+CC=/usr/local/clang-7.0.0/bin/clang
+CXX=/usr/local/clang-7.0.0/bin/clang++
