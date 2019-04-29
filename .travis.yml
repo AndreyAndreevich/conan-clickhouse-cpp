@@ -19,8 +19,8 @@ before_script:
   - pip install conan_package_tools
 script:
   - conan export . demo/testing
-  - conan install clickhouse-cpp/0.1@demo/testing --build
-  - conan test test_package clickhouse-cpp/0.1@demo/testing
+  - conan install clickhouse-cpp/0.1@demo/testing --build -pr clang
+  - conan test test_package clickhouse-cpp/0.1@demo/testing -pr clang
 #deploy:
 #  - provider: script
 #    skip_cleanup: true
