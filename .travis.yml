@@ -5,9 +5,8 @@ before_script:
   - pip install conan --upgrade
   - pip install conan_package_tools
 script:
-  - sudo apt-get --purge remove gcc-5.4
   - conan export . demo/testing
-  - conan install clickhouse-cpp/0.1@demo/testing --build=clickhouse-cpp -s compiler=clang -s compiler.libcxx=libc++ -s compiler.version=7
+  - conan install clickhouse-cpp/0.1@demo/testing --build=clickhouse-cpp -s compiler=clang -s compiler.libcxx=libc++ -s compiler.version=7.0
   - conan test test_package clickhouse-cpp/0.1@demo/testing
 #deploy:
 #  - provider: script
