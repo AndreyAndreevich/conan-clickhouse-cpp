@@ -25,6 +25,8 @@ script:
 deploy:
   - provider: script
     skip_cleanup: true
+    on:
+      branch: Windows
     script:
       conan remote add my "https://api.bintray.com/conan/12345678/clickhouse-cpp" --insert &&
       conan user -p $BINTRAY_API_KEY -r my andreyandreevich &&
