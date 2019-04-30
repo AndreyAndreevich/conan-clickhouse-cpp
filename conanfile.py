@@ -44,4 +44,7 @@ class ClickhouseclientConan(ConanFile):
         self.copy("*.a", dst="lib", keep_path=False)
 
     def package_info(self):
-        self.cpp_info.libs = ["clickhouse-cpp-lib"]
+        if self.settings.compiler == "Visual Studio":
+            self.cpp_info.libs = tools.collect_libs(self)
+        else:
+            self.cpp_info.libs = ["clickhouse-cpp-lib"]
