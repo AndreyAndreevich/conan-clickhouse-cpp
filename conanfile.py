@@ -16,11 +16,19 @@ class ClickhouseclientConan(ConanFile):
     def source(self):
         git = tools.Git(folder="clickhouse-cpp")
         git.clone("https://github.com/artpaul/clickhouse-cpp.git")
-        tools.replace_in_file("clickhouse-cpp/CMakeLists.txt", "PROJECT (CLICKHOUSE-CLIENT)",
-        '''PROJECT (CLICKHOUSE-CLIENT)
-        message(STATUS "binary = ${CMAKE_BINARY_DIR}")
-        include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-        conan_basic_setup()''')
+        if self.settings.compiler == "Visual Studio":
+            tools.replace_in_file("clickhouse-cpp/CMakeLists.txt", "PROJECT (CLICKHOUSE-CLIENT)",
+            '''PROJECT (CLICKHOUSE-CLIENT)
+            message(STATUS "binary = ${CMAKE_BINARY_DIR}")
+            include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+            conan_basic_setup()
+            add_compile_definitions(GTEST_LANG_CXX11=1)''')
+        else:
+            tools.replace_in_file("clickhouse-cpp/CMakeLists.txt", "PROJECT (CLICKHOUSE-CLIENT)",
+            '''PROJECT (CLICKHOUSE-CLIENT)
+            message(STATUS "binary = ${CMAKE_BINARY_DIR}")
+            include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+            conan_basic_setup()''')
 
     def build(self):
         cmake = CMake(self)
@@ -36,4 +44,7 @@ class ClickhouseclientConan(ConanFile):
         self.copy("*.a", dst="lib", keep_path=False)
 
     def package_info(self):
-        self.cpp_info.libs = ["clickhouse-cpp-lib"]
+        if self.settings.compiler == "Visual Studio":
+            self.cpp_info.libs = tools.collect_libs(self)
+        else:
+            self.cpp_info.libs = ["clickhouse-cpp-lib"]
