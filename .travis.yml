@@ -26,6 +26,6 @@ deploy:
   - provider: script
     skip_cleanup: true
     script:
-      conan remote add my "https://api.bintray.com/conan/andrbek/conan" --insert &&
+      conan remote add andrbek "https://api.bintray.com/conan/andrbek/conan" --insert &&
       conan user -p $BINTRAY_API_KEY -r andrbek andreyandreevich &&
       conan upload clickhouse-cpp/0.1@andrbek/testing --all -r=andrbek

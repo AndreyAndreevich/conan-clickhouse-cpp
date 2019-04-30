@@ -1,11 +1,11 @@
 ### Add remote
 ```
-conan remote add my "https://api.bintray.com/conan/12345678/clickhouse-cpp"
+conan remote add andrbek "https://api.bintray.com/conan/andrbek/conan"
 ```
 
 ### Include on conaninfo.txt
 ```
-clickhouse-cpp/0.1@conan/testing
+clickhouse-cpp/0.1@andrbek/testing
 ```
 
 ### Options:
