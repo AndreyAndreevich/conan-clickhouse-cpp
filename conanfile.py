@@ -1,5 +1,5 @@
+import os
 from conans import ConanFile, CMake, tools
-
 
 class ClickhouseclientConan(ConanFile):
     name = "clickhouse-cpp"
@@ -16,19 +16,23 @@ class ClickhouseclientConan(ConanFile):
     def source(self):
         git = tools.Git(folder="clickhouse-cpp")
         git.clone("https://github.com/artpaul/clickhouse-cpp.git")
-        if self.settings.compiler == "Visual Studio":
-            tools.replace_in_file("clickhouse-cpp/CMakeLists.txt", "PROJECT (CLICKHOUSE-CLIENT)",
-            '''PROJECT (CLICKHOUSE-CLIENT)
-            message(STATUS "binary = ${CMAKE_BINARY_DIR}")
+
+        os.rename(os.path.join(self.name, "CMakeLists.txt"),
+                  os.path.join(self.name, "CMakeListsOriginal.txt"))
+        fd = os.open(os.path.join(self.name, "CMakeLists.txt"), os.O_RDWR | os.O_CREAT)
+
+        str = '''cmake_minimum_required(VERSION 3.0)
+            project(cmake_wrapper)
+            
             include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
             conan_basic_setup()
-            add_compile_definitions(GTEST_LANG_CXX11=1)''')
-        else:
-            tools.replace_in_file("clickhouse-cpp/CMakeLists.txt", "PROJECT (CLICKHOUSE-CLIENT)",
-            '''PROJECT (CLICKHOUSE-CLIENT)
-            message(STATUS "binary = ${CMAKE_BINARY_DIR}")
-            include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-            conan_basic_setup()''')
+            '''
+        if self.settings.os == "Windows":
+            str += "add_compile_definitions(GTEST_LANG_CXX11=1)\n"
+        str += '''include("CMakeListsOriginal.txt")'''
+
+        os.write(fd, str.encode())
+        os.close(fd)
 
     def build(self):
         cmake = CMake(self)
