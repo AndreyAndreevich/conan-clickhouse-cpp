@@ -1,5 +1,4 @@
-language: python
-python: "3.6"
+language: cpp
 matrix:
   include:
     - os: linux
@@ -29,8 +28,8 @@ before_script:
 script:
   - conan export . demo/testing
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then conan export . andrbek/testing ; fi
-  - conan install clickhouse-cpp/0.1@demo/testing --build -pr clang
-  - conan test test_package clickhouse-cpp/0.1@demo/testing -pr clang
+  - conan install clickhouse-cpp/0.2@demo/testing --build
+  - conan test test_package clickhouse-cpp/0.2@demo/testing
 deploy:
   - provider: script
     skip_cleanup: true
