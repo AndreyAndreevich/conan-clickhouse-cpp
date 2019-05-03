@@ -23,8 +23,9 @@ matrix:
 before_install:
   - eval "${MATRIX_EVAL}"
 before_script:
-  - pip install conan --upgrade
-  - pip install conan_package_tools
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then pip install --user --upgrade pip
+  - pip install --user conan --upgrade
+  - pip install --user conan_package_tools
 script:
   - conan export . demo/testing
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then conan export . andrbek/testing ; fi

@@ -22,7 +22,7 @@ class ClickhouseclientConan(ConanFile):
         fd = os.open(os.path.join(self.name, "CMakeLists.txt"), os.O_RDWR | os.O_CREAT)
 
         os.write(fd,'''
-            cmake_minimum_required(VERSION 3.0)
+            cmake_minimum_required(VERSION 3.0.2)
             project(cmake_wrapper)
             
             include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
