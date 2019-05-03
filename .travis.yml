@@ -1,17 +1,26 @@
 language: python
 python: "3.6"
-dist: xenial
 matrix:
   include:
     - os: linux
+      dist: trusty
+      sudo: required
+      compiler: gcc
       addons:
         apt:
           sources:
             - ubuntu-toolchain-r-test
           packages:
-            - g++-8
+            - g++-7
       env:
-        - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
+        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+
+    - os: osx
+      osx_image: xcode8.2
+      compiler: clang
+
+    - os: windows
+
 before_install:
   - eval "${MATRIX_EVAL}"
 before_script:
@@ -19,13 +28,14 @@ before_script:
   - pip install conan_package_tools
 script:
   - conan export . demo/testing
-  - conan export . andrbek/testing
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then conan export . andrbek/testing ; fi
   - conan install clickhouse-cpp/0.1@demo/testing --build -pr clang
   - conan test test_package clickhouse-cpp/0.1@demo/testing -pr clang
 deploy:
   - provider: script
     skip_cleanup: true
     script:
+      if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
       conan remote add andrbek "https://api.bintray.com/conan/andrbek/conan" --insert &&
       conan user -p $BINTRAY_API_KEY -r andrbek andreyandreevich &&
-      conan upload clickhouse-cpp/0.1@andrbek/testing --all -r=andrbek
+      conan upload clickhouse-cpp/0.2@andrbek/testing --all -r=andrbek ; fi

@@ -5,7 +5,7 @@ conan remote add andrbek "https://api.bintray.com/conan/andrbek/conan"
 
 ### Include on conaninfo.txt
 ```
-clickhouse-cpp/0.1@andrbek/testing
+clickhouse-cpp/0.2@andrbek/testing
 ```
 
 ### Options:

@@ -3,10 +3,10 @@ from conans import ConanFile, CMake, tools
 
 class ClickhouseclientConan(ConanFile):
     name = "clickhouse-cpp"
-    version = "0.1"
+    version = "0.2"
     license = "http://www.apache.org/licenses/LICENSE-2.0"
     author = "Andrey l.a.r.p@yandex.ru"
-    url = "https://github.com/artpaul/clickhouse-cpp.git"
+    url = "https://github.com/AndreyAndreevich/clickhouse-cpp"
     description = "Clickhouse C++ client"
     settings = "os", "compiler", "build_type", "arch"
     options = {"shared": [True, False]}
@@ -15,23 +15,22 @@ class ClickhouseclientConan(ConanFile):
 
     def source(self):
         git = tools.Git(folder="clickhouse-cpp")
-        git.clone("https://github.com/artpaul/clickhouse-cpp.git")
+        git.clone("https://github.com/AndreyAndreevich/clickhouse-cpp")
 
         os.rename(os.path.join(self.name, "CMakeLists.txt"),
                   os.path.join(self.name, "CMakeListsOriginal.txt"))
         fd = os.open(os.path.join(self.name, "CMakeLists.txt"), os.O_RDWR | os.O_CREAT)
 
-        str = '''cmake_minimum_required(VERSION 3.0)
+        os.write(fd,'''
+            cmake_minimum_required(VERSION 3.0)
             project(cmake_wrapper)
             
             include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
             conan_basic_setup()
-            '''
-        if self.settings.os == "Windows":
-            str += "add_compile_definitions(GTEST_LANG_CXX11=1)\n"
-        str += '''include("CMakeListsOriginal.txt")'''
+            
+            include("CMakeListsOriginal.txt")
+            '''.encode())
 
-        os.write(fd, str.encode())
         os.close(fd)
 
     def build(self):
