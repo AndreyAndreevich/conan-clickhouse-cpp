@@ -25,6 +25,8 @@ script:
 deploy:
   - provider: script
     skip_cleanup: true
+    on:
+      branch: 0.2/testing
     script:
       conan remote add andrbek "https://api.bintray.com/conan/andrbek/conan" --insert &&
       conan user -p $BINTRAY_API_KEY -r andrbek andreyandreevich &&
